@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 
 export default class Story extends Component {
-
     render() {
         return (
             <li className="story">
@@ -13,6 +12,3 @@ export default class Story extends Component {
         )
     }
 }
-
-
-// {this.state.stories.map(story => <li className="story" key={story.id}><a href={story.url}>{story.title}</a><span className="comment"><a href={"https://news.ycombinator.com/item?id="+story.id}>Comments</a></span></li>)}

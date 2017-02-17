@@ -1,0 +1,37 @@
+body {
+  background: #fafafa;
+}
+
+h3 {
+  color: #f06d3c;
+}
+.App {
+  text-align: left;
+  padding: 20px;
+}
+
+.App a{
+  text-decoration: none;
+  color: black;
+}
+
+.App a:hover{
+  text-decoration: underline;
+}
+
+.App .story {
+
+}
+.App .comment a {
+  padding-left: 10px;
+  font-size: .8em;
+  color: #a5a5a5;
+}
+
+.App .controls {
+  padding: 10px 0;
+}
+
+.App .controls * {
+  margin-right: 10px;
+}

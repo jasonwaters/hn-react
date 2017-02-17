@@ -1,0 +1,14 @@
+.StoryList ol {
+    display: block;
+    padding: 30px;
+    margin: 0;
+
+}
+
+.StoryList li {
+    padding-bottom:20px;
+}
+
+.StoryList.loading {
+    opacity: 0.30;
+}
