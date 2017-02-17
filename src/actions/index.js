@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const PAGE_SIZE = 30;
+export const PAGE_SIZE = 20;
 
 const storyCache = JSON.parse(localStorage.getItem('hn_stories')) || {};
 
