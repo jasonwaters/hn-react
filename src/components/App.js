@@ -19,9 +19,9 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <h3>Hacker News</h3>
+                <h3 onClick={() => this.switchPage(0)}>Hacker News</h3>
                 <StoryList className={this.props.loading ? "loading" : ''} stories={this.props.stories} startIndex={this.props.firstIndex+1} />
-                <div>Page {this.state.pageNum+1} / {this.props.numPages}</div>
+                <div>Page {this.state.pageNum+1} of {this.props.numPages}</div>
                 <div className="controls">
                     <button disabled={this.state.pageNum===0} onClick={() => this.handlePrev()}>Previous</button>
                     <button disabled={this.state.pageNum===this.props.numPages-1} onClick={() => this.handleNext()}>Next</button>
