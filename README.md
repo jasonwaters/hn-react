@@ -12,9 +12,10 @@ View the live demo [here](https://hn-react.surge.sh).
 1. `yarn start` or `npm run start`
 1. point your web browser to [http://localhost:3000](http://localhost:3000)
 
-App started with [create-react-app](https://github.com/facebookincubator/create-react-app).
-
 
 ## Build
 
 `yarn run build` or `npm run build`
+
+
+App initialized with [create-react-app](https://github.com/facebookincubator/create-react-app).
