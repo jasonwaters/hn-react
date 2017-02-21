@@ -1,9 +1,20 @@
 // @flow
 import {PAGE_SIZE} from "../actions/index";
 
+export type CommentModel = {
+  by: string,
+  id: number,
+  kids: number[],
+  parent: number,
+  text: string,
+  time: number,
+  type: string
+}
+
 export type StoryModel = {
   by: string,
   descendants: number,
+  kids: number[],
   id: number,
   score: number,
   text?: string,
@@ -11,6 +22,7 @@ export type StoryModel = {
   title: string,
   type: string,
   url?: string,
+  comments: CommentModel[]
 }
 
 export type StoriesModel = {
@@ -36,10 +48,12 @@ const STORY_DEFAULT: StoryModel = {
   id: 0,
   by: '',
   descendants: 0,
+  kids: [],
   score: 0,
   time: 0,
   title: "",
   type: "",
+  comments: []
 };
 
 const STORIES_DEFAULT: StoriesModel = {
@@ -52,6 +66,7 @@ const STORIES_DEFAULT: StoriesModel = {
 };
 
 export const SET_STORY = 'SET_STORY',
+  SET_COMMENTS = 'SET_COMMENTS',
   SET_STORIES = 'SET_STORIES',
   FETCH_STORIES = 'FETCH_STORIES',
   SET_STORY_IDS = 'SET_STORY_IDS';
@@ -59,7 +74,11 @@ export const SET_STORY = 'SET_STORY',
 export function story(state: StoryModel = STORY_DEFAULT, action: Action) {
   switch (action.type) {
     case SET_STORY:
-      return action.payload;
+      return Object.assign({}, state, action.payload, {comments: []});
+    case SET_COMMENTS:
+      return Object.assign({}, state, {
+        comments: action.payload
+      });
     default:
       return state;
   }

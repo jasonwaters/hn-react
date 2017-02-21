@@ -31,8 +31,10 @@ class StoryDetail extends Component {
     return (
       <div>
         <h3><a href={this.props.story.url}>{this.props.story.title}</a></h3>
-        {this.props.story.text ?
-          <p className="text" dangerouslySetInnerHTML={this.createMarkup(this.props.story.text)}></p> : void 0}
+        {this.props.story.text ? <p className="text" dangerouslySetInnerHTML={this.createMarkup(this.props.story.text)}></p> : void 0}
+        <ul>
+          {this.props.story.comments.map(comment => <li key={comment.id} dangerouslySetInnerHTML={this.createMarkup(comment.text)}></li>)}
+        </ul>
       </div>
     )
   }

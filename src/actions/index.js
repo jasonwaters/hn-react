@@ -1,5 +1,6 @@
-import axios from 'axios';
-import {SET_STORY, SET_STORIES, FETCH_STORIES, SET_STORY_IDS} from "../reducers/stories.reducer";
+import axios from "axios";
+import type {StoryModel} from "../reducers/stories.reducer";
+import {SET_STORY, SET_STORIES, FETCH_STORIES, SET_STORY_IDS, SET_COMMENTS} from "../reducers/stories.reducer";
 
 export const PAGE_SIZE = 20;
 
@@ -7,13 +8,23 @@ const storyCache = JSON.parse(localStorage.getItem('hn_stories')) || {};
 
 export function fetchStory(storyID) {
   return function (dispatch, getState) {
+    function setStory(story:StoryModel) {
+      dispatch({type: SET_STORY, payload: story});
+
+      if(story.kids instanceof Array && story.kids.length > 0) {
+        axios.all(story.kids.map(commentID => axios.get(`https://hacker-news.firebaseio.com/v0/item/${commentID}.json`)))
+          .then(res => {
+            let comments = res.map(value => value.data);
+            dispatch({type: SET_COMMENTS, payload: comments});
+          })
+      }
+    }
+
     if (typeof storyCache[storyID] !== undefined) {
-      dispatch({type: SET_STORY, payload: storyCache[storyID]});
+      setStory(storyCache[storyID]);
     } else {
       axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
-        .then(res => {
-          dispatch({type: SET_STORY, payload: res.data});
-        });
+        .then(res => setStory(res.data));
     }
   };
 }
