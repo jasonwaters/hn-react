@@ -11,10 +11,10 @@ import {BrowserRouter as Router} from "react-router-dom";
 const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
-    <Router>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </Router>,
+  <Router>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Router>,
   document.getElementById('root')
 );

@@ -6,45 +6,46 @@ import type {StoryModel} from "../reducers/stories.reducer";
 import "./StoryDetail.css";
 
 class StoryDetail extends Component {
-    props: {
-        story:StoryModel,
-        match: {
-            params: {
-                storyId: number;
-            }
-        }
-    };
-
-    componentDidMount() {
-        this.props.dispatch(fetchStory(this.storyId));
+  props: {
+    story:StoryModel,
+    match: {
+      params: {
+        storyId: number;
+      }
     }
+  };
 
-    get storyId() {
-        return parseInt(this.props.match.params.storyId, 10);
-    }
+  componentDidMount() {
+    this.props.dispatch(fetchStory(this.storyId));
+  }
 
-    createMarkup(value:string) {
-        return {__html: value};
-    }
+  get storyId() {
+    return parseInt(this.props.match.params.storyId, 10);
+  }
 
-    render() {
-        return (
-            <div>
-                <h3><a href={this.props.story.url}>{this.props.story.title}</a></h3>
-                {this.props.story.text ? <p className="text" dangerouslySetInnerHTML={this.createMarkup(this.props.story.text)}></p> : void 0}
-            </div>
-        )
-    }
+  createMarkup(value: string) {
+    return {__html: value};
+  }
+
+  render() {
+    return (
+      <div>
+        <h3><a href={this.props.story.url}>{this.props.story.title}</a></h3>
+        {this.props.story.text ?
+          <p className="text" dangerouslySetInnerHTML={this.createMarkup(this.props.story.text)}></p> : void 0}
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {
-    return Object.assign({
-        story: state.story
-    });
+  return Object.assign({
+    story: state.story
+  });
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {dispatch};
+  return {dispatch};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(StoryDetail));
