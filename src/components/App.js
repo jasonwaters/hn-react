@@ -1,59 +1,30 @@
+// @flow
 import React, {Component} from "react";
+import {
+    Redirect,
+    Route,
+    Link
+} from 'react-router-dom';
+
 import "./App.css";
-import {connect} from "react-redux";
-import StoryList from "./StoryList";
-import {fetchStories} from "../actions";
+import Home from "./Home";
+import StoryDetail from "./StoryDetail";
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        props.dispatch(fetchStories());
-        this.state ={
-            pageNum: 0
-        };
-    }
-
     componentDidMount() {
     }
 
     render() {
         return (
             <div className="App">
-                <h3 onClick={() => this.switchPage(0)}>Hacker News</h3>
-                <StoryList className={this.props.loading ? "loading" : ''} stories={this.props.stories} startIndex={this.props.firstIndex+1} />
-                <div>Page {this.state.pageNum+1} of {this.props.numPages}</div>
-                <div className="controls">
-                    <button disabled={this.state.pageNum===0} onClick={() => this.handlePrev()}>Previous</button>
-                    <button disabled={this.state.pageNum===this.props.numPages-1} onClick={() => this.handleNext()}>Next</button>
-                    <span className="status">{this.props.loading ? 'loading...' : ''}</span>
-                </div>
+                <h1><Link to="/">Hacker News</Link></h1>
+                <Route exact path="/" render={() => <Redirect to="/stories"/>}/>
+                <Route exact path="/stories" component={Home}/>
+                <Route path="/stories/:pageNum" component={Home}/>
+                <Route path="/story/:storyId" component={StoryDetail}/>
             </div>
         );
     }
-
-    switchPage(pageNum) {
-        this.setState({
-            pageNum: pageNum
-        }, () => {
-            this.props.dispatch(fetchStories(this.state.pageNum));
-        });
-    }
-
-    handlePrev() {
-        this.switchPage(this.state.pageNum-1);
-    }
-
-    handleNext() {
-        this.switchPage(this.state.pageNum+1);
-    }
 }
 
-const mapStateToProps = (state) => {
-    return Object.assign({}, state.stories);
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {dispatch};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

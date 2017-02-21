@@ -4,7 +4,21 @@ export const PAGE_SIZE = 20;
 
 const storyCache = JSON.parse(localStorage.getItem('hn_stories')) || {};
 
+export function fetchStory(storyID) {
+    return function (dispatch, getState) {
+        if (typeof storyCache[storyID] !== undefined) {
+            dispatch({type: 'SET_STORY', payload: storyCache[storyID]});
+        } else {
+            axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
+                .then(res => {
+                    dispatch({type: 'SET_STORY', payload: res.data});
+                });
+        }
+    };
+}
+
 export function fetchStories(pageNum = 0) {
+    pageNum = parseInt(pageNum, 10);
     return function (dispatch, getState) {
         const fetchStoryDetails = ids => {
             let firstIndex = pageNum * PAGE_SIZE;

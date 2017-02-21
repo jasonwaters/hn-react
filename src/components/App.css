@@ -2,10 +2,22 @@ body {
   background: #fafafa;
 }
 
-h3 {
+h1, h1 > a {
   color: #f06d3c;
-  cursor: pointer;
 }
+
+h3, h3 > a {
+  color: #116688;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .App {
   text-align: left;
   padding: 20px;

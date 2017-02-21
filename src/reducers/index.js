@@ -1,8 +1,10 @@
+// @flow
 import {combineReducers} from "redux";
-import stories from './stories.reducer';
+import {stories, story} from "./stories.reducer";
 
 const hnApp = combineReducers({
     stories,
+    story,
 });
 
 export default hnApp;

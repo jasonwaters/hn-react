@@ -1,5 +1,48 @@
+// @flow
 import {PAGE_SIZE} from "../actions/index";
-const stories_model = {
+
+export type StoryModel = {
+    by: string,
+    descendants: number,
+    id: number,
+    score: number,
+    text?: string,
+    time: number,
+    title: string,
+    type: string,
+    url?: string,
+}
+
+export type StoriesModel = {
+    loading: boolean,
+    stories: StoryModel[],
+    ids: number[],
+    numPages: number,
+    firstIndex: number,
+    lastIndex: number,
+}
+
+type Action = {
+    type: string,
+    stories?:StoriesModel,
+    firstIndex?:number,
+    lastIndex?:number,
+    isFinished:boolean,
+    numPages:number,
+    payload:any,
+};
+
+const STORY_DEFAULT:StoryModel = {
+    id: 0,
+    by: '',
+    descendants: 0,
+    score: 0,
+    time: 0,
+    title: "",
+    type: "",
+};
+
+const STORIES_DEFAULT:StoriesModel = {
     loading: false,
     stories: [],
     ids: [],
@@ -8,16 +51,16 @@ const stories_model = {
     lastIndex: 0
 };
 
-function story(state, action) {
+export function story(state:StoryModel = STORY_DEFAULT, action:Action) {
     switch (action.type) {
-        case 'ADD_STORY':
+        case 'SET_STORY':
             return action.payload;
         default:
             return state;
     }
 }
 
-function stories(state = stories_model, action) {
+export function stories(state:StoriesModel = STORIES_DEFAULT, action:Action) {
     switch (action.type) {
         case 'SET_STORIES':
             return Object.assign({}, state, {
@@ -38,5 +81,3 @@ function stories(state = stories_model, action) {
             return state;
     }
 }
-
-export default stories;
