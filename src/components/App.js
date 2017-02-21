@@ -22,6 +22,7 @@ class App extends Component {
         <Route exact path="/stories" component={Home}/>
         <Route path="/stories/:pageNum" component={Home}/>
         <Route path="/story/:storyId" component={StoryDetail}/>
+        <a className="fork-me" href="https://github.com/jasonwaters/hn-react"></a>
       </div>
     );
   }
