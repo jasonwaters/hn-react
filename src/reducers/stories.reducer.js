@@ -36,7 +36,6 @@ export type StoriesModel = {
 
 type Action = {
   type: string,
-  stories?:StoriesModel,
   firstIndex?:number,
   lastIndex?:number,
   isFinished:boolean,
@@ -78,14 +77,15 @@ const STORIES_DEFAULT: StoriesModel = {
 export const SET_STORY = 'SET_STORY',
   SET_COMMENT = 'SET_COMMENT',
   SET_COMMENTS = 'SET_COMMENTS',
+  ADD_STORY = 'ADD_STORY',
   SET_STORIES = 'SET_STORIES',
   FETCH_STORIES = 'FETCH_STORIES',
   SET_STORY_IDS = 'SET_STORY_IDS';
 
 
-function arrayOf(count:number, fn:Function) {
+function arrayOf(count: number, fn: Function) {
   let result = [];
-  for(let i=0;i<count;i++) {
+  for (let i = 0; i < count; i++) {
     result.push(fn(i));
   }
   return result;
@@ -95,7 +95,7 @@ export function story(state: StoryModel = STORY_DEFAULT, action: Action) {
   switch (action.type) {
     case SET_STORY:
       return Object.assign({}, state, action.payload, {
-        comments: action.payload.kids instanceof Array && action.payload.kids.length ? arrayOf(action.payload.kids.length, idx => Object.assign({}, COMMENT_DEFAULT, {id:idx})) : []
+        comments: action.payload.kids instanceof Array && action.payload.kids.length ? arrayOf(action.payload.kids.length, idx => Object.assign({}, COMMENT_DEFAULT, {id: idx})) : []
       });
     case SET_COMMENTS:
       return Object.assign({}, state, {
@@ -105,7 +105,7 @@ export function story(state: StoryModel = STORY_DEFAULT, action: Action) {
       let commentIndex = state.kids.indexOf(action.payload.id);
 
       return Object.assign({}, state, {
-        comments: [...state.comments.slice(0,commentIndex), action.payload, ...state.comments.slice(commentIndex+1)]
+        comments: [...state.comments.slice(0, commentIndex), action.payload, ...state.comments.slice(commentIndex + 1)]
       });
     default:
       return state;
@@ -116,9 +116,15 @@ export function stories(state: StoriesModel = STORIES_DEFAULT, action: Action) {
   switch (action.type) {
     case SET_STORIES:
       return Object.assign({}, state, {
-        stories: action.stories,
+        stories: arrayOf(PAGE_SIZE, idx => Object.assign({}, STORY_DEFAULT, {id: state.ids[action.firstIndex + idx], title: "loading..."})),
         firstIndex: action.firstIndex,
         lastIndex: action.lastIndex
+      });
+    case ADD_STORY:
+      let storyIndex = state.stories.findIndex(story => story.id === action.payload.id);
+
+      return Object.assign({}, state, {
+        stories: [...state.stories.slice(0, storyIndex), action.payload, ...state.stories.slice(storyIndex + 1)]
       });
     case FETCH_STORIES:
       return Object.assign({}, state, {
